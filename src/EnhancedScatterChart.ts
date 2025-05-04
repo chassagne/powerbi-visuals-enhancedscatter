@@ -174,7 +174,7 @@ export class EnhancedScatterChart implements IVisual {
     private static ClassName: string = "enhancedScatterChart";
     private static MainGraphicsContextClassName: string = "mainGraphicsContext";
     private static AxisFontSize: number = 11;
-    private static CrosshairTextMargin: number = 5;
+
     private static BubbleRadius = 3 * 2;
 
     private static MinSizeRange = 200;
@@ -197,13 +197,6 @@ export class EnhancedScatterChart implements IVisual {
     private static MinIndex: number = 0;
 
     private static EmptyString: string = "";
-
-    private static DefaultPositionOfCrosshair: number = 0;
-
-    private static DefaultCrosshairYPosition: number = 1;
-    private static CrosshairPrecision: number = 0.00001;
-    private static CrosshairStartPosition: number = 0;
-    private static CrosshairScaleFactor: number = 100;
 
     private static DefaultBackgroundPosition: number = 0;
 
@@ -271,12 +264,6 @@ export class EnhancedScatterChart implements IVisual {
     private static DefaultCategoryAxisFillColor: string = "#333";
 
     private static TextAnchor: string = "middle";
-
-    public static CrosshairCanvasSelector: ClassAndSelector = createClassAndSelector("crosshairCanvas");
-    public static CrosshairLineSelector: ClassAndSelector = createClassAndSelector("crosshairLine");
-    public static CrosshairVerticalLineSelector: ClassAndSelector = createClassAndSelector("crosshairVerticalLine");
-    public static CrosshairHorizontalLineSelector: ClassAndSelector = createClassAndSelector("crosshairHorizontalLine");
-    public static CrosshairTextSelector: ClassAndSelector = createClassAndSelector("crosshairText");
 
     public static SvgScrollableSelector: ClassAndSelector = createClassAndSelector("svgScrollable");
 
@@ -362,10 +349,6 @@ export class EnhancedScatterChart implements IVisual {
     private clearCatcher: Selection<any>;
     private mainGraphicsG: Selection<any>;
 
-    private crosshairCanvasSelection: Selection<any>;
-    private crosshairVerticalLineSelection: Selection<any>;
-    private crosshairHorizontalLineSelection: Selection<any>;
-    private crosshairTextSelection: Selection<any>;
 
     private data: EnhancedScatterChartData;
     private axisFillValue: Fill;
@@ -821,11 +804,6 @@ export class EnhancedScatterChart implements IVisual {
         settings.enableFillPointCardSettings.show.value = colorHelper.isHighContrast
             ? true
             : settings.enableFillPointCardSettings.show.value;
-
-        settings.enableCrosshairCardSettings.color = colorHelper.getHighContrastColor(
-            "foreground",
-            settings.enableCrosshairCardSettings.color
-        );
 
         this.parseAxisSettings(settings.enableCategoryAxisCardSettings, colorHelper);
         this.parseAxisSettings(settings.enableValueAxisCardSettings, colorHelper);
@@ -1468,7 +1446,6 @@ export class EnhancedScatterChart implements IVisual {
         );
 
         this.drawCategoryLabels();
-        this.renderCrosshair(this.data);
         this.bindTooltip(scatterMarkers);
 
         this.bindInteractivityService(scatterMarkers, this.data.dataPoints);
@@ -1778,199 +1755,6 @@ export class EnhancedScatterChart implements IVisual {
         }
 
         return { solid: { color: EnhancedScatterChart.DefaultCategoryAxisFillColor } };
-    }
-
-    /**
-     * Public for testability.
-     */
-    public renderCrosshair(data: EnhancedScatterChartData): Selection<any> {
-        if (!this.mainGraphicsSVGSelection) {
-            return;
-        }
-
-        this.crosshairCanvasSelection = this.addCrosshairCanvasToDOM(this.mainGraphicsSVGSelection);
-
-        if (data && data.settings.enableCrosshairCardSettings.show.value) {
-            const color: string = data.settings.enableCrosshairCardSettings.color;
-
-            this.crosshairVerticalLineSelection = this.addCrosshairLineToDOM(
-                this.crosshairCanvasSelection,
-                EnhancedScatterChart.CrosshairVerticalLineSelector,
-                color,
-            );
-
-            this.crosshairHorizontalLineSelection = this.addCrosshairLineToDOM(
-                this.crosshairCanvasSelection,
-                EnhancedScatterChart.CrosshairHorizontalLineSelector,
-                color,
-            );
-
-            this.crosshairTextSelection = this.addCrosshairTextToDOM(
-                this.crosshairCanvasSelection,
-                color,
-            );
-
-            this.bindCrosshairEvents();
-        } else {
-            this.clearCrosshair();
-        }
-
-        return this.crosshairCanvasSelection;
-    }
-
-    public clearCrosshair(): void {
-        if (!this.crosshairCanvasSelection) {
-            return;
-        }
-
-        this.crosshairCanvasSelection
-            .selectAll("*")
-            .remove();
-    }
-
-    /**
-     * Public for testability.
-     */
-    public addCrosshairCanvasToDOM(rootElement: Selection<any>): Selection<any> {
-        const crosshairCanvasSelector: ClassAndSelector = EnhancedScatterChart.CrosshairCanvasSelector;
-
-        return this.addElementToDOM(rootElement, {
-            name: "g",
-            selector: crosshairCanvasSelector.selectorName,
-            className: crosshairCanvasSelector.className,
-            styles: { display: "none" }
-        });
-    }
-
-    /**
-     * Public for testability.
-     */
-    public addCrosshairLineToDOM(
-        rootElement: Selection<any>,
-        elementSelector: ClassAndSelector,
-        color: string
-    ): Selection<any> {
-        const crosshairLineSelector: ClassAndSelector = EnhancedScatterChart.CrosshairLineSelector;
-
-        return this.addElementToDOM(rootElement, {
-            name: "line",
-            selector: elementSelector.selectorName,
-            className: `${crosshairLineSelector.className} ${elementSelector.className}`,
-            attributes: {
-                x1: EnhancedScatterChart.DefaultPositionOfCrosshair,
-                y1: EnhancedScatterChart.DefaultPositionOfCrosshair,
-                x2: EnhancedScatterChart.DefaultPositionOfCrosshair,
-                y2: EnhancedScatterChart.DefaultPositionOfCrosshair
-            },
-            styles: {
-                "stroke": color,
-            },
-        });
-    }
-
-    /**
-     * Public for testability.
-     */
-    public addCrosshairTextToDOM(rootElement: Selection<any>, color: string): Selection<any> {
-        const crosshairTextSelector: ClassAndSelector = EnhancedScatterChart.CrosshairTextSelector;
-
-        return this.addElementToDOM(rootElement, {
-            name: "text",
-            selector: crosshairTextSelector.selectorName,
-            className: crosshairTextSelector.className,
-            styles: {
-                "fill": color,
-            },
-        });
-    }
-
-    /**
-     * Public for testability.
-     */
-    public bindCrosshairEvents(): void {
-        if (!this.axisGraphicsContextScrollable) {
-            return;
-        }
-
-        this.axisGraphicsContextScrollable
-            .on("mousemove", (event) => {
-                const currentTarget = <SVGAElement>event.currentTarget,
-                    svgNode: SVGElement = currentTarget.viewportElement,
-                    scaledRect: DOMRect = svgNode.getBoundingClientRect(),
-                    domRect: SVGRect = (<any>svgNode).getBBox(),
-                    ratioX: number = scaledRect.width / domRect.width,
-                    ratioY: number = scaledRect.height / domRect.height;
-
-                let x: number = event.pageX,
-                    y: number = event.pageY;
-
-                if (domRect.width > EnhancedScatterChart.MinViewport.width
-                    && !equalWithPrecision(
-                        ratioX,
-                        EnhancedScatterChart.DefaultCrosshairYPosition,
-                        EnhancedScatterChart.CrosshairPrecision)) {
-
-                    x = x / ratioX;
-                }
-
-                if (domRect.height > EnhancedScatterChart.MinViewport.height
-                    && !equalWithPrecision(
-                        ratioY,
-                        EnhancedScatterChart.DefaultCrosshairYPosition,
-                        EnhancedScatterChart.CrosshairPrecision)) {
-
-                    y = y / ratioY;
-                }
-
-                this.updateCrosshair(x, y);
-            })
-            .on("mouseover", () => {
-                this.crosshairCanvasSelection.style("display", "block");
-            })
-            .on("mouseout", () => {
-                this.crosshairCanvasSelection.style("display", "none");
-            });
-    }
-
-    /**
-     * Public for testability.
-     */
-    public updateCrosshair(x: number, y: number): void {
-        if (!this.viewportIn
-            || !this.crosshairHorizontalLineSelection
-            || !this.crosshairVerticalLineSelection
-            || !this.crosshairTextSelection
-            || !this.xAxisProperties) {
-
-            return;
-        }
-
-        const crosshairTextMargin: number = EnhancedScatterChart.CrosshairTextMargin,
-            xScale = <d3ScaleLiear<number, number>>this.xAxisProperties.scale,
-            yScale = <d3ScaleLiear<number, number>>this.yAxisProperties.scale;
-
-        this.crosshairHorizontalLineSelection
-            .attr("x1", EnhancedScatterChart.CrosshairStartPosition)
-            .attr("y1", y)
-            .attr("x2", this.viewportIn.width)
-            .attr("y2", y);
-
-        this.crosshairVerticalLineSelection
-            .attr("x1", x)
-            .attr("y1", EnhancedScatterChart.CrosshairStartPosition)
-            .attr("x2", x)
-            .attr("y2", this.viewportIn.height);
-
-        const xFormated: number = Math.round(xScale.invert(x) * EnhancedScatterChart.CrosshairScaleFactor)
-            / EnhancedScatterChart.CrosshairScaleFactor;
-
-        const yFormated: number = Math.round(yScale.invert(y) * EnhancedScatterChart.CrosshairScaleFactor)
-            / EnhancedScatterChart.CrosshairScaleFactor;
-
-        this.crosshairTextSelection
-            .attr("x", x + crosshairTextMargin)
-            .attr("y", y - crosshairTextMargin)
-            .text(`(${xFormated}, ${yFormated})`);
     }
 
     /**

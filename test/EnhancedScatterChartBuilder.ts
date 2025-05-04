@@ -102,12 +102,6 @@ export class EnhancedScatterChartBuilder extends VisualBuilderBase<VisualClass> 
         return texts;
     }
 
-    public get crosshair(): HTMLElement {
-        return this?.mainGraphicsContext
-            ?.querySelector("svg")
-            ?.querySelector("g.crosshairCanvas") as HTMLElement;
-    }
-
     public get dots(): NodeListOf<HTMLElement> {
         return this?.mainGraphicsContext
             ?.querySelector("svg")

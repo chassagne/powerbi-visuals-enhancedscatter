@@ -237,41 +237,6 @@ describe("EnhancedScatterChart", () => {
                 return element;
             }
         });
-
-        describe("Crosshair", () => {
-            beforeEach(() => {
-                dataView.metadata.objects = {
-                    crosshair: {
-                        show: true
-                    }
-                };
-            });
-
-            it("visiblity test", () => {
-                const MiddleViewportFactor: number = 2;
-
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-
-                const event: any = new Event("mousemove");
-
-                event.pageY = visualBuilder.viewport.height / MiddleViewportFactor;
-                event.pageX = visualBuilder.viewport.width / MiddleViewportFactor;
-
-                visualBuilder.svgScrollableAxisGraphicsContext.dispatchEvent(new Event("mouseover"));
-                visualBuilder.svgScrollableAxisGraphicsContext.dispatchEvent(event);
-
-                expect(visualBuilder.crosshair.style.display).not.toBe("none");
-
-                visualBuilder.crosshair.querySelectorAll("line").forEach((element: SVGLineElement) => {
-                    expect(parseFloat(element.getAttribute("x2") ?? "0")).toBeGreaterThan(0);
-                    expect(parseFloat(element.getAttribute("y2") ?? "0")).toBeGreaterThan(0);
-                });
-
-                visualBuilder.svgScrollableAxisGraphicsContext.dispatchEvent(new Event("mouseout"));
-
-                expect(visualBuilder.crosshair.style.display).toBe("none");
-            });
-        });
     });
 
     describe("Format settings test", () => {
@@ -508,26 +473,6 @@ describe("EnhancedScatterChart", () => {
                 visualBuilder.dots.forEach((element: HTMLElement) => {
                     expect(element.style.fill).toBeFalsy();
                 });
-            });
-        });
-
-        describe("Crosshair", () => {
-            beforeEach(() => {
-                dataView.metadata.objects = {
-                    crosshair: {
-                        show: true
-                    }
-                };
-            });
-
-            it("show", () => {
-                (<any>dataView.metadata.objects).crosshair.show = true;
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-                expect(visualBuilder.crosshair.querySelector("text")).toBeTruthy();
-
-                (<any>dataView.metadata.objects).crosshair.show = false;
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-                expect(visualBuilder.crosshair.querySelector("text")).not.toBeTruthy();
             });
         });
 

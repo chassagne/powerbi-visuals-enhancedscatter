@@ -234,22 +234,6 @@ export class EnableFillPointCardSettings extends Card {
     topLevelSlice?: formattingSettings.SimpleSlice<any> = this.show;
 }
 
-export class EnableCrosshairCardSettings extends Card {
-
-    public color: string = "#808080";
-
-    show = new formattingSettings.ToggleSwitch({
-        name: "show",
-        displayNameKey: "Visual_Crosshair",
-        value: false,
-    });
-
-    name: string = "crosshair";
-    displayNameKey: string = "Visual_Crosshair";
-    slices = [];
-    topLevelSlice?: formattingSettings.SimpleSlice<any> = this.show;
-}
-
 export class EnableOutlineCardSettings extends Card {
 
     show = new formattingSettings.ToggleSwitch({
@@ -287,12 +271,11 @@ export class EnhancedScatterChartSettingsModel extends Model {
     enableLegendCardSettings = new EnableLegendCardSettings();
     enableCategoryLabelsCardSettings = new EnableCategoryLabelsCardSettings();
     enableFillPointCardSettings = new EnableFillPointCardSettings();
-    enableCrosshairCardSettings = new EnableCrosshairCardSettings();
     enableOutlineCardSettings = new EnableOutlineCardSettings();
 
     cards = [this.enableDataPointCardSettings, this.enableCategoryAxisCardSettings, this.enableValueAxisCardSettings,
         this.enableLegendCardSettings, this.enableCategoryLabelsCardSettings, this.enableFillPointCardSettings,
-        this.enableCrosshairCardSettings, this.enableOutlineCardSettings];
+        this.enableOutlineCardSettings];
 
     setLocalizedOptions(localizationManager: ILocalizationManager) { 
         this.setLocalizedDisplayName(positionOptions, localizationManager);
