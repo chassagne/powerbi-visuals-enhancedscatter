@@ -69,7 +69,6 @@ export interface EnhancedScatterChartMeasureMetadataIndexes {
     category?: number;
     x?: number;
     y?: number;
-    size?: number;
     colorFill?: number;
     xStart?: number;
     xEnd?: number;
@@ -80,7 +79,6 @@ export interface EnhancedScatterChartMeasureMetadataIndexes {
 export interface EnhancedScatterChartMeasureMetadataColumns {
     x?: DataViewMetadataColumn;
     y?: DataViewMetadataColumn;
-    size?: DataViewMetadataColumn;
 }
 
 export interface EnhancedScatterChartMeasureMetadata {
@@ -172,7 +170,6 @@ export interface EnhancedScatterChartDataPoint extends
 
     x: any;
     y: any;
-    size: number | ISize;
     radius: EnhancedScatterChartRadiusData;
     fill: string;
     stroke: string;
@@ -201,8 +198,6 @@ export interface EnhancedScatterChartData {
     dataPoints: EnhancedScatterChartDataPoint[];
     legendDataPoints: LegendDataPoint[];
     axesLabels: EnhancedScatterChartAxesLabels;
-    size?: DataViewMetadataColumn;
-    sizeRange: NumberRange;
     hasDynamicSeries?: boolean;
     colorBorder?: boolean;
     colorByCategory?: boolean;

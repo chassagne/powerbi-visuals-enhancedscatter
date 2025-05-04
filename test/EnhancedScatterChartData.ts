@@ -49,7 +49,7 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
     public static ColumnSeries: string = EnhancedScatterChart.ColumnSeries;
     public static ColumnX: string = EnhancedScatterChart.ColumnX;
     public static ColumnY: string = EnhancedScatterChart.ColumnY;
-    public static ColumnSize: string = EnhancedScatterChart.ColumnSize;
+
     public static ColumnColorFill: string = EnhancedScatterChart.ColumnColorFill;
     public static ColumnShape: string = EnhancedScatterChart.ColumnShape;
 
@@ -60,8 +60,7 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
         EnhancedScatterChartData.ColumnCategory,
         EnhancedScatterChartData.ColumnSeries,
         EnhancedScatterChartData.ColumnX,
-        EnhancedScatterChartData.ColumnY,
-        EnhancedScatterChartData.ColumnSize
+        EnhancedScatterChartData.ColumnY
     ];
 
     public valuesCategory: Date[] = EnhancedScatterChartData.getDateYearRange(
@@ -186,16 +185,6 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
                     },
                     values: this.valuesY,
                     highlights: column2Highlight.length > 0 ? column2Highlight : undefined
-                },
-                {
-                    source: {
-                        displayName: EnhancedScatterChartData.ColumnSize,
-                        format: EnhancedScatterChartData.NumberFormatWithoutPrecision,
-                        isMeasure: true,
-                        roles: { [EnhancedScatterChartData.ColumnSize]: true }
-                    },
-                    values: this.valuesSize,
-                    highlights: column3Highlight.length > 0 ? column3Highlight : undefined
                 },
                 {
                     source: {
