@@ -54,10 +54,6 @@ export class EnhancedScatterChartBuilder extends VisualBuilderBase<VisualClass> 
         return this.mainElement.querySelector(".axisGraphicsContext") as HTMLElement;
     }
 
-    public get backdropImage(): SVGImageElement {
-        return this.axisGraphicsContext.querySelector("image") as SVGImageElement;
-    }
-
     public get xAxis(): HTMLElement {
         return this.axisGraphicsContext.querySelector("g.x.axis") as HTMLElement;
     }
@@ -117,13 +113,6 @@ export class EnhancedScatterChartBuilder extends VisualBuilderBase<VisualClass> 
             ?.querySelector("svg")
             ?.querySelector("g.ScatterMarkers")
             ?.querySelectorAll("path.dot") as NodeListOf<HTMLElement>;
-    }
-
-    public get images(): NodeListOf<HTMLElement> {
-        return this?.mainGraphicsContext
-            ?.querySelector("svg")
-            ?.querySelector("g.ScatterMarkers")
-            ?.querySelectorAll("image.img") as NodeListOf<HTMLElement>;
     }
 
     public get legendGroup(): HTMLElement {

@@ -71,10 +71,6 @@ export interface EnhancedScatterChartMeasureMetadataIndexes {
     y?: number;
     size?: number;
     colorFill?: number;
-    shape?: number;
-    image?: number;
-    rotation?: number;
-    backdrop?: number;
     xStart?: number;
     xEnd?: number;
     yStart?: number;
@@ -184,9 +180,6 @@ export interface EnhancedScatterChartDataPoint extends
     contentPosition: ContentPositions;
     formattedCategory: () => string;
     svgurl?: string;
-    shapeSymbolType?: (value: number) => string;
-    rotation: number;
-    backdrop?: string;
     xStart?: number;
     xEnd?: number;
     yStart?: number;
@@ -211,7 +204,6 @@ export interface EnhancedScatterChartData {
     size?: DataViewMetadataColumn;
     sizeRange: NumberRange;
     hasDynamicSeries?: boolean;
-    hasGradientRole?: boolean;
     colorBorder?: boolean;
     colorByCategory?: boolean;
     selectedIds: ISelectionId[];
@@ -245,18 +237,4 @@ export interface CalculateScaleAndDomainOptions {
     categoryAxisPrecision?: number;
     valueAxisDisplayUnits?: number;
     valueAxisPrecision?: number;
-}
-
-export enum Shape {
-    Circle = "circle",
-    Cross = "cross",
-    Diamond = "diamond",
-    Square = "square",
-    TriangleUp = "triangle-up",
-    TriangleDown = "triangle-down",
-    Star = "star",
-    Hexagon = "hexagon",
-    X = "x",
-    UpArrow = "uparrow",
-    DownArrow = "downarrow"
 }

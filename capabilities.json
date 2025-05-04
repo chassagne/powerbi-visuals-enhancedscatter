@@ -31,40 +31,10 @@
             "displayNameKey": "Role_DisplayName_Size"
         },
         {
-            "name": "Gradient",
-            "kind": "Measure",
-            "displayName": "Color saturation",
-            "displayNameKey": "Role_DisplayName_Gradient"
-        },
-        {
             "name": "ColorFill",
             "kind": "Grouping",
             "displayName": "Customized Color",
             "displayNameKey": "Role_DisplayName_CustomizedColor"
-        },
-        {
-            "name": "Shape",
-            "kind": "Measure",
-            "displayName": "Shape",
-            "displayNameKey": "Role_DisplayName_Shape"
-        },
-        {
-            "name": "Image",
-            "kind": "Grouping",
-            "displayName": "Image",
-            "displayNameKey": "Role_DisplayName_Image"
-        },
-        {
-            "name": "Rotation",
-            "kind": "Measure",
-            "displayName": "Rotation",
-            "displayNameKey": "Role_DisplayName_Rotation"
-        },
-        {
-            "name": "Backdrop",
-            "kind": "Grouping",
-            "displayName": "Backdrop",
-            "displayNameKey": "Role_DisplayName_Backdrop"
         },
         {
             "name": "X Start",
@@ -110,22 +80,39 @@
                     "Size": {
                         "max": 1
                     },
-                    "Gradient": {
-                        "max": 1
-                    },
                     "ColorFill": {
                         "max": 0
                     },
-                    "Shape": {
+                    "XStart": {
                         "max": 1
                     },
-                    "Image": {
+                    "XEnd": {
+                        "max": 1
+                    },
+                    "YStart": {
+                        "max": 1
+                    },
+                    "YEnd": {
+                        "max": 1
+                    }
+                },
+                {
+                    "Category": {
+                        "max": 1
+                    },
+                    "Series": {
                         "max": 0
                     },
-                    "Rotation": {
+                    "X": {
                         "max": 1
                     },
-                    "Backdrop": {
+                    "Y": {
+                        "max": 1
+                    },
+                    "Size": {
+                        "max": 1
+                    },
+                    "ColorFill": {
                         "max": 1
                     },
                     "XStart": {
@@ -157,23 +144,8 @@
                     "Size": {
                         "max": 1
                     },
-                    "Gradient": {
-                        "max": 0
-                    },
                     "ColorFill": {
-                        "max": 1
-                    },
-                    "Shape": {
-                        "max": 1
-                    },
-                    "Image": {
                         "max": 0
-                    },
-                    "Rotation": {
-                        "max": 1
-                    },
-                    "Backdrop": {
-                        "max": 1
                     },
                     "XStart": {
                         "max": 1
@@ -193,7 +165,7 @@
                         "max": 1
                     },
                     "Series": {
-                        "max": 0
+                        "max": 1
                     },
                     "X": {
                         "max": 1
@@ -204,22 +176,7 @@
                     "Size": {
                         "max": 1
                     },
-                    "Gradient": {
-                        "max": 0
-                    },
                     "ColorFill": {
-                        "max": 0
-                    },
-                    "Shape": {
-                        "max": 0
-                    },
-                    "Image": {
-                        "max": 1
-                    },
-                    "Rotation": {
-                        "max": 1
-                    },
-                    "Backdrop": {
                         "max": 1
                     },
                     "XStart": {
@@ -251,70 +208,8 @@
                     "Size": {
                         "max": 1
                     },
-                    "Gradient": {
-                        "max": 0
-                    },
-                    "ColorFill": {
-                        "max": 1
-                    },
-                    "Shape": {
-                        "max": 1
-                    },
-                    "Image": {
-                        "max": 0
-                    },
-                    "Rotation": {
-                        "max": 1
-                    },
-                    "Backdrop": {
-                        "max": 1
-                    },
-                    "XStart": {
-                        "max": 1
-                    },
-                    "XEnd": {
-                        "max": 1
-                    },
-                    "YStart": {
-                        "max": 1
-                    },
-                    "YEnd": {
-                        "max": 1
-                    }
-                },
-                {
-                    "Category": {
-                        "max": 1
-                    },
-                    "Series": {
-                        "max": 1
-                    },
-                    "X": {
-                        "max": 1
-                    },
-                    "Y": {
-                        "max": 1
-                    },
-                    "Size": {
-                        "max": 1
-                    },
-                    "Gradient": {
-                        "max": 0
-                    },
                     "ColorFill": {
                         "max": 0
-                    },
-                    "Shape": {
-                        "max": 0
-                    },
-                    "Image": {
-                        "max": 1
-                    },
-                    "Rotation": {
-                        "max": 1
-                    },
-                    "Backdrop": {
-                        "max": 1
                     },
                     "XStart": {
                         "max": 1
@@ -342,16 +237,6 @@
                             "bind": {
                                 "to": "ColorFill"
                             }
-                        },
-                        {
-                            "bind": {
-                                "to": "Image"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "Backdrop"
-                            }
                         }
                     ],
                     "dataReductionAlgorithm": {
@@ -375,21 +260,6 @@
                             {
                                 "bind": {
                                     "to": "Size"
-                                }
-                            },
-                            {
-                                "bind": {
-                                    "to": "Gradient"
-                                }
-                            },
-                            {
-                                "bind": {
-                                    "to": "Shape"
-                                }
-                            },
-                            {
-                                "bind": {
-                                    "to": "Rotation"
                                 }
                             },
                             {
@@ -444,20 +314,6 @@
                             "solid": {
                                 "color": true
                             }
-                        }
-                    }
-                },
-                "fillRule": {
-                    "type": {
-                        "fillRule": {}
-                    },
-                    "rule": {
-                        "inputRole": "Gradient",
-                        "output": {
-                            "property": "fill",
-                            "selector": [
-                                "Category"
-                            ]
                         }
                     }
                 }
@@ -613,20 +469,6 @@
                 "show": {
                     "type": {
                         "bool": true
-                    }
-                }
-            }
-        },
-        "backdrop": {
-            "properties": {
-                "show": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "url": {
-                    "type": {
-                        "text": true
                     }
                 }
             }

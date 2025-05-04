@@ -52,9 +52,6 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
     public static ColumnSize: string = EnhancedScatterChart.ColumnSize;
     public static ColumnColorFill: string = EnhancedScatterChart.ColumnColorFill;
     public static ColumnShape: string = EnhancedScatterChart.ColumnShape;
-    public static ColumnImage: string = EnhancedScatterChart.ColumnImage;
-    public static ColumnBackdrop: string = EnhancedScatterChart.ColumnBackdrop;
-    public static ColumnRotation: string = EnhancedScatterChart.ColumnRotation;
 
     public XColumnTypeOverload: ValueTypeDescriptor;
     public YColumnTypeOverload: ValueTypeDescriptor;
@@ -91,8 +88,6 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
         "Microsoft_OneNote.png",
         "Microsoft_Outlook.png"
     ];
-
-    public rotationValues: number[] = getRandomNumbers(this.valuesCategory.length, 100, 1000);
 
     public static getDateYearRange(start: Date, stop: Date, yearStep: number): Date[] {
         return lodashRange(start.getFullYear(), stop.getFullYear(), yearStep)
@@ -160,22 +155,6 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
                     type: ValueType.fromDescriptor({ text: true })
                 },
                 values: this.colorValues
-            },
-            {
-                source: {
-                    displayName: EnhancedScatterChartData.ColumnImage,
-                    roles: { [EnhancedScatterChartData.ColumnImage]: true },
-                    type: ValueType.fromDescriptor({ text: true })
-                },
-                values: this.imageValues
-            },
-            {
-                source: {
-                    displayName: EnhancedScatterChartData.ColumnBackdrop,
-                    roles: { [EnhancedScatterChartData.ColumnBackdrop]: true },
-                    type: ValueType.fromDescriptor({ text: true })
-                },
-                values: this.imageValues
             }
         ], [
                 {
@@ -217,16 +196,6 @@ export class EnhancedScatterChartData extends TestDataViewBuilder {
                     },
                     values: this.valuesSize,
                     highlights: column3Highlight.length > 0 ? column3Highlight : undefined
-                },
-                {
-                    source: {
-                        displayName: EnhancedScatterChartData.ColumnRotation,
-                        format: EnhancedScatterChartData.NumberFormatWithoutPrecision,
-                        isMeasure: true,
-                        roles: { [EnhancedScatterChartData.ColumnRotation]: true },
-                    },
-                    values: this.rotationValues,
-                    highlights: column4Highlight.length > 0 ? column4Highlight : undefined
                 },
                 {
                     source: {

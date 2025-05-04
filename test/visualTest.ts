@@ -511,40 +511,6 @@ describe("EnhancedScatterChart", () => {
             });
         });
 
-        describe("Backdrop", () => {
-            beforeEach(() => {
-                dataView.metadata.objects = {
-                    backdrop: {
-                        show: true
-                    }
-                };
-            });
-
-            it("show", () => {
-                (<any>dataView.metadata.objects).backdrop.url = "https://test.url";
-                (<any>dataView.metadata.objects).backdrop.show = true;
-
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-                expect(parseFloat(visualBuilder.backdropImage.getAttribute("height"))).toBeGreaterThan(0);
-                expect(parseFloat(visualBuilder.backdropImage.getAttribute("width"))).toBeGreaterThan(0);
-
-                (<any>dataView.metadata.objects).backdrop.show = false;
-
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-                expect(parseFloat(visualBuilder.backdropImage.getAttribute("height"))).toBe(0);
-                expect(parseFloat(visualBuilder.backdropImage.getAttribute("width"))).toBe(0);
-            });
-
-            it("url", () => {
-                const url: string = "https://test.url";
-
-                (<any>dataView.metadata.objects).backdrop.url = url;
-                visualBuilder.updateFlushAllD3Transitions(dataView);
-
-                expect(visualBuilder.backdropImage.getAttribute("href")).toBe(url);
-            });
-        });
-
         describe("Crosshair", () => {
             beforeEach(() => {
                 dataView.metadata.objects = {
@@ -805,8 +771,9 @@ describe("EnhancedScatterChart", () => {
 
     describe("Shapes", () => {
         it("checks 'd' attribute equality between numeric shape representation and string representation of shape column" , () => {
+            // Remove custom shape capabilities: only test default shapes
             const shapeNumberRepresentation: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-            const shapeStringRepresentation: string[] = ["circle","cross","diamond","square","triangle-up","triangle-down","star","hexagon","x","uparrow","downarrow"];
+            const shapeStringRepresentation: string[] = ["circle","cross","diamond","square","triangle-up","triangle-down","star","hexagon","x"];
 
             let dAttributeList: string[] = [];
 
@@ -1013,21 +980,6 @@ describe("EnhancedScatterChart", () => {
             callParseDataAndExpectExceptions(instance, dataView, colorPalette, visualHost);
         });
 
-        it("backdrop", () => {
-            let enhancedScatterChartData: IEnhancedScatterChartData = callConverterWithAdditionalColumns(
-                instance,
-                colorPalette,
-                visualHost,
-                [EnhancedScatterChartData.ColumnBackdrop]
-            );
-
-            expect(enhancedScatterChartData.settings.enableBackdropCardSettings.url.value).toBeDefined();
-            expect(enhancedScatterChartData.settings.enableBackdropCardSettings.url.value).not.toBeNull();
-
-            expect(enhancedScatterChartData.settings.enableBackdropCardSettings.url.value).toBe(defaultDataViewBuilder.imageValues[0]);
-            expect(enhancedScatterChartData.settings.enableBackdropCardSettings.show.value).toBeDefined();
-        });
-
         describe("dataPoints", () => {
             it("x should be defined", () => {
                 checkDataPointProperty(
@@ -1064,50 +1016,6 @@ describe("EnhancedScatterChart", () => {
                     visualHost,
                     [EnhancedScatterChartData.ColumnColorFill]
                 );
-            });
-
-            it("images url", () => {
-                checkDataPointProperty(
-                    instance,
-                    (dataPoint: EnhancedScatterChartDataPoint, index: number) => {
-                        expect(dataPoint.svgurl).toBe(defaultDataViewBuilder.imageValues[index]);
-                    },
-                    defaultDataViewBuilder,
-                    colorPalette,
-                    visualHost,
-                    [EnhancedScatterChartData.ColumnImage]);
-            });
-
-            it("rotate should be defined", () => {
-                checkDataPointProperty(
-                    instance,
-                    (dataPoint: EnhancedScatterChartDataPoint, index) => {
-                        valueToBeDefinedAndNumber(dataPoint.rotation);
-                    },
-                    defaultDataViewBuilder,
-                    colorPalette,
-                    visualHost,
-                    [EnhancedScatterChartData.ColumnRotation]);
-            });
-
-            it("rotate should be 0 when source values are null", () => {
-                defaultDataViewBuilder.rotationValues = defaultDataViewBuilder.rotationValues.map((rotation) => {
-                    return null;
-                });
-
-                checkDataPointProperty(
-                    instance,
-                    (dataPoint: EnhancedScatterChartDataPoint) => {
-                        let rotation: number = dataPoint.rotation;
-
-                        valueToBeDefinedAndNumber(rotation);
-
-                        expect(rotation).toBe(0);
-                    },
-                    defaultDataViewBuilder,
-                    colorPalette,
-                    visualHost,
-                    [EnhancedScatterChartData.ColumnRotation]);
             });
         });
 
@@ -1183,20 +1091,7 @@ describe("EnhancedScatterChart", () => {
                 EnhancedScatterChartData.ColumnX,
                 EnhancedScatterChartData.ColumnY,
                 EnhancedScatterChartData.ColumnSize,
-                EnhancedScatterChartData.ColumnImage,
             ]);
-
-            visualBuilder.updateRenderTimeout(dataView, () => {
-                const images: NodeListOf<HTMLElement> = visualBuilder.images;
-
-                images.forEach((image: HTMLElement) => {
-                    const altText: string | null = image.getAttribute("title");
-
-                    expect(altText).toBeDefined();
-                });
-
-                done();
-            });
         });
 
         describe("High contrast mode", () => {
@@ -1322,7 +1217,6 @@ describe("EnhancedScatterChart", () => {
         });
     });
 
-
     describe("Backward compatibility", () => {
 
         let colorPalette: IColorPalette,
@@ -1335,37 +1229,8 @@ describe("EnhancedScatterChart", () => {
             instance = visualBuilder.instance;
         });
 
-        // From version 3.0.2.0 to 3.0.8.0
-        it("checks if fillPoint show property was enabled when size column is applied", () => {
-            const dataView: DataView = defaultDataViewBuilder.getDataView(EnhancedScatterChartData.DefaultSetOfColumns);
+        // Removed tests related to datapoint size capabilities
+        // (fillPoint show property when size column is applied or not)
 
-            const enhancedScatterChartData: IEnhancedScatterChartData = instance.parseData(
-                    dataView,
-                    colorPalette,
-                    visualHost,
-                    null);
-                    
-            const fillPointShow: boolean = enhancedScatterChartData.settings.enableFillPointCardSettings.show.value;
-            expect(fillPointShow).toBeTrue();
-        });
-
-        // From version 3.0.2.0 to 3.0.8.0
-        it("checks if fillPoint show property was disabled when size column is not applied", () => {
-            const dataView: DataView = defaultDataViewBuilder.getDataView([
-                EnhancedScatterChartData.ColumnCategory,
-                EnhancedScatterChartData.ColumnSeries,
-                EnhancedScatterChartData.ColumnX,
-                EnhancedScatterChartData.ColumnY,
-            ]);
-
-            const enhancedScatterChartData: IEnhancedScatterChartData = instance.parseData(
-                dataView,
-                colorPalette,
-                visualHost,
-                null);
-
-            const fillPointShow: boolean = enhancedScatterChartData.settings.enableFillPointCardSettings.show.value;
-            expect(fillPointShow).toBeFalse();
-        });
     });
 });

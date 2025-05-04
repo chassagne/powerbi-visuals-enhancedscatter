@@ -58,13 +58,6 @@ export class EnableDataPointCardSettings extends Card {
         value: { value: "#888888" }
     });
 
-    fillRule = new formattingSettings.GradientBar({
-        name: "fillRule",
-        displayNameKey: "Visual_ColorSaturation",
-        selector: "Category",
-        value: { }
-    });
-
     name: string = "dataPoint";
     displayNameKey: string = "Visual_DataPoint";
     slices = [this.defaultColor, this.showAllDataPoints];
@@ -241,27 +234,6 @@ export class EnableFillPointCardSettings extends Card {
     topLevelSlice?: formattingSettings.SimpleSlice<any> = this.show;
 }
 
-export class EnableBackdropCardSettings extends Card {
-
-    show = new formattingSettings.ToggleSwitch({
-        name: "show",
-        displayNameKey: "Visual_Show",
-        value: false
-    });
-
-    url = new formattingSettings.TextInput({
-        name: "url",
-        displayNameKey: "Visual_Backdrop_ImageURL",
-        value: "",
-        placeholder: ""
-    });
-
-    name: string = "backdrop";
-    displayNameKey: string = "Visual_Backdrop";
-    slices = [this.url];
-    topLevelSlice?: formattingSettings.SimpleSlice<any> = this.show;
-}
-
 export class EnableCrosshairCardSettings extends Card {
 
     public color: string = "#808080";
@@ -315,13 +287,12 @@ export class EnhancedScatterChartSettingsModel extends Model {
     enableLegendCardSettings = new EnableLegendCardSettings();
     enableCategoryLabelsCardSettings = new EnableCategoryLabelsCardSettings();
     enableFillPointCardSettings = new EnableFillPointCardSettings();
-    enableBackdropCardSettings = new EnableBackdropCardSettings();
     enableCrosshairCardSettings = new EnableCrosshairCardSettings();
     enableOutlineCardSettings = new EnableOutlineCardSettings();
 
     cards = [this.enableDataPointCardSettings, this.enableCategoryAxisCardSettings, this.enableValueAxisCardSettings,
         this.enableLegendCardSettings, this.enableCategoryLabelsCardSettings, this.enableFillPointCardSettings,
-        this.enableBackdropCardSettings, this.enableCrosshairCardSettings, this.enableOutlineCardSettings];
+        this.enableCrosshairCardSettings, this.enableOutlineCardSettings];
 
     setLocalizedOptions(localizationManager: ILocalizationManager) { 
         this.setLocalizedDisplayName(positionOptions, localizationManager);
